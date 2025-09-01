@@ -1,0 +1,113 @@
+{% extends 'hostel/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h3 class="mb-4 text-center text-primary">
+            {% if form.instance.pk %}
+                Edit Student
+            {% else %}
+                Add New Student
+            {% endif %}
+        </h3>
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Name -->
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" name="name" class="form-control"
+                       value="{{ form.name.value|default:'' }}"
+                       placeholder="Enter student name" required>
+            </div>
+
+            <!-- Father Name -->
+            <div class="mb-3">
+                <label class="form-label">Father Name</label>
+                <input type="text" name="father_name" class="form-control"
+                       value="{{ form.father_name.value|default:'' }}"
+                       placeholder="Enter father name" required>
+            </div>
+
+            <!-- Contact -->
+            <div class="mb-3">
+                <label class="form-label">Contact</label>
+                <input type="text" name="contact" class="form-control"
+                       value="{{ form.contact.value|default:'' }}"
+                       placeholder="Enter contact number" required>
+            </div>
+
+            <!-- CNIC -->
+            <div class="mb-3">
+                <label class="form-label">CNIC</label>
+                <input type="text" name="cnic" class="form-control"
+                       value="{{ form.cnic.value|default:'' }}"
+                       placeholder="Enter CNIC" required>
+            </div>
+
+            <!-- Address -->
+            <div class="mb-3">
+                <label class="form-label">Permanent Address</label>
+                <textarea name="address" class="form-control"
+                          rows="3" placeholder="Enter permanent address"
+                          required>{{ form.address.value|default:'' }}</textarea>
+            </div>
+
+            <!-- Room -->
+            <div class="mb-3">
+                <label class="form-label">Room</label>
+                <select name="room" class="form-select" required>
+                    {% for room in rooms %}
+                        <option value="{{ room.id }}"
+                            {% if form.room.value|stringformat:"s" == room.id|stringformat:"s" %}
+                                selected
+                            {% endif %}>
+                            {{ room.room_no }} ({{ room.status }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Admission Date -->
+            <div class="mb-3">
+                <label class="form-label">Admission Date</label>
+                <input type="date" name="admission_date" class="form-control"
+                       value="{{ form.admission_date.value|default:'' }}" required>
+            </div>
+
+            <!-- Has Bike -->
+            <div class="mb-3">
+                <label class="form-label">Has Bike?</label>
+                <input type="checkbox" id="has_bike" name="has_bike"
+                       {% if form.has_bike.value %}checked{% endif %}>
+            </div>
+
+            <!-- Bike Number -->
+            <div class="mb-3" id="bikeNumberField"
+                 {% if form.has_bike.value %}style="display:block;"{% else %}style="display:none;"{% endif %}>
+                <label class="form-label">Bike Number</label>
+                <input type="text" name="bike_number" class="form-control"
+                       value="{{ form.bike_number.value|default:'' }}"
+                       placeholder="Enter bike number">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">
+                {% if form.instance.pk %}Update Student{% else %}Save Student{% endif %}
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function toggleBikeNumber() {
+        const bikeCheckbox = document.getElementById("has_bike");
+        const bikeNumberField = document.getElementById("bikeNumberField");
+        bikeNumberField.style.display = bikeCheckbox.checked ? "block" : "none";
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        toggleBikeNumber();
+        document.getElementById("has_bike").addEventListener("change", toggleBikeNumber);
+    });
+</script>
+{% endblock %}

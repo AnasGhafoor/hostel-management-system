@@ -1,0 +1,63 @@
+{% extends 'hostel/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">
+                        {% if form.instance.pk %} Edit Room {% else %} Add New Room {% endif %}
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- Non-field errors (form-wide) -->
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <!-- Loop through all fields -->
+                        {% for field in form %}
+                            <div class="mb-3 text-start">
+                                <label class="form-label fw-bold d-block">{{ field.label }}</label>
+                                <div>{{ field }}</div>
+                                {% if field.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ field.errors|striptags }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                {% if form.instance.pk %} Update Room {% else %} Save Room {% endif %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Extra Styling for Form Fields -->
+<style>
+    input, select, textarea {
+        display: block !important;
+        width: 100% !important;
+        margin-top: 5px !important;
+        border-radius: 10px !important;
+        padding: 10px !important;
+        border: 1px solid #ccc !important;
+    }
+    input:focus, select:focus, textarea:focus {
+        border-color: #0d6efd !important;
+        box-shadow: 0 0 5px rgba(13,110,253,0.5) !important;
+    }
+</style>
+{% endblock %}

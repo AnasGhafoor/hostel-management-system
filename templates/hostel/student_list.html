@@ -1,0 +1,65 @@
+{% extends 'hostel/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h3 class="mb-4 text-center text-primary">Students List</h3>
+        <a href="{% url 'student_add' %}" class="btn btn-success mb-3">+ Add New Student</a>
+        <table class="table table-bordered table-hover text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Father</th>
+                    <th>CNIC</th>
+                    <th>Contact</th>
+                    <th>Room</th>
+                    <th>Permanent Address</th>
+                    <th>Has Bike</th>
+                    <th>Bike Number</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.father_name }}</td>
+                    <td>{{ student.cnic }}</td>
+                    <td>{{ student.contact }}</td>
+                    <td>{{ student.room.room_no }}</td>
+                    <td>{{ student.address }}</td>
+
+                    <!-- ✅ Has Bike ko readable banaya -->
+                    <td>
+                        {% if student.has_bike %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </td>
+
+                    <!-- ✅ Bike Number sirf tab dikhayega jab bike ho -->
+                    <td>
+                        {% if student.has_bike %}
+                            {{ student.bike_number }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="{% url 'student_edit' student.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'student_delete' student.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="10" class="text-center">No students found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

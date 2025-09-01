@@ -1,0 +1,60 @@
+{% extends 'hostel/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h3 class="mb-4 text-center text-primary">Add Payment</h3>
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group mb-3">
+                <label for="id_student">Select Student</label>
+                {{ form.student }}
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="id_month">Month</label>
+                {{ form.month }}
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="id_rent_amount">Rent Amount</label>
+                {{ form.rent_amount }}
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="id_mess_bill">Mess Bill</label>
+                {{ form.mess_bill }}
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="id_extra">Extra</label>
+                {{ form.extra }}
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="id_total">Total</label>
+                {{ form.total }}
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="id_status">Status</label>
+                {{ form.status }}
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Save Payment</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* ✅ form ke sare input aur select ko same banane ke liye */
+    form input, form select {
+        width: 100% !important;
+        height: 40px !important;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}
